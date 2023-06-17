@@ -239,6 +239,24 @@ valores_classificados.append(GHI_2022['new'])
 # Encontrar a posição do valor predito na lista classificada
 posicao = valores_classificados.index(GHI_2022['new']) + 1
 
+if valor_predito < 5:
+    st.write("You are not in the Hunger Map")
+elif valor_predito >= 5 and valor_predito < 10:
+    st.markdown("<b style='color:green;'>Low hungry</b>",
+                unsafe_allow_html=True)
+elif valor_predito >= 10 and valor_predito < 20:
+    st.markdown("<b style='color:lightgreen;'>Moderate hungry</b>",
+                unsafe_allow_html=True)
+elif valor_predito >= 20 and valor_predito < 35:
+    st.markdown("<b style='color:yellow; font-size:60px;'>Serious hungry</b>",
+                unsafe_allow_html=True)
+elif valor_predito >= 35 and valor_predito < 50:
+    st.markdown("<b style='color:orange;'>Alarming hungry</b>",
+                unsafe_allow_html=True)
+elif valor_predito >= 50:
+    st.markdown("<b style='color:red;'>Extremely alarming hungry</b>",
+                unsafe_allow_html=True)
+
 fig = px.choropleth(df,
                     locations=df.index,
                     locationmode="country names",
@@ -246,7 +264,7 @@ fig = px.choropleth(df,
                     color_continuous_scale='OrRd')
 
 # Configurar o layout do mapa
-fig.update_layout(title_text='Global Hunger Index',
+fig.update_layout(title_text='Global Hunger Index (2022)',
                   geo=dict(showcoastlines=True,
                            showland=True,
                            showcountries=True,
@@ -262,11 +280,18 @@ st.sidebar.title("Hunger Index")
 st.sidebar.markdown(
     f'<p style="text-align: right; font-size: 24px; color: red;">{round(valor_predito,2)}</p>',
     unsafe_allow_html=True)
+st.sidebar.markdown(
+    f'<p style="text-align: left; font-size: 15px;">The Global Hunger Index (GHI) measures and tracks hunger, comparing levels across countries. It scores from 0 (no hunger) to 100 (worst). It highlights high hunger areas, urging efforts to eliminate hunger.</p>',
+    unsafe_allow_html=True)
 # Exibir a posição em ordem crescente do valor predito
 if valor_predito < 5:
     st.sidebar.markdown(f"You are not in the Hunger Map")
 else:
     st.sidebar.title(f"Your position is :red[{posicao}] in the Hunger Map")
+
+st.sidebar.markdown(
+    f'<p style="text-align: left; font-size: 15px;">The lower the better</p>',
+    unsafe_allow_html=True)
 
 sidecol1, sidecol2, sidecol3 = st.sidebar.columns(3)
 
@@ -287,7 +312,6 @@ sidecol2.write(
 )
 
 sidecol2.write('\n')
-
 
 sidecol1.image(
     "https://pbs.twimg.com/profile_images/1549791104333221889/h3CF2VEO_400x400.jpg",
